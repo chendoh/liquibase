@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liquibase-deployment
+  namespace: liquibase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: liquibase
+  template:
+    metadata:
+      labels:
+        app: liquibase
+    spec:
+      containers:
+        - name: liquibase
+          image: liquibase/liquibase:latest
+          command
+          volumeMounts:
+            - name: liquibase-config-volume
+              mountPath: /liquibase
+      volumes:
+        - name: liquibase-config-volume
+          configMap:
+            name: liquibase-config
